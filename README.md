@@ -2,6 +2,86 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Option 1: Using Docker
+
+1. Start database first:
+
+```bash
+docker compose up -d postgres
+```
+
+2. Build the app:
+
+```bash
+docker compose build app
+```
+
+3. Create database schema and migrations:
+
+```bash
+docker compose run --rm app npx prisma migrate dev --name init
+```
+
+4. Start the app:
+
+```bash
+docker compose up app
+```
+
+Or use the setup script:
+
+```bash
+chmod +x setup-db.sh
+./setup-db.sh
+docker compose up app
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+Stop: `docker compose down`
+
+### Verify Everything is Working
+
+**Check if containers are running:**
+
+```bash
+docker compose ps
+```
+
+**Check database connection:**
+
+```bash
+docker compose exec postgres psql -U postgresS -d codearena -c "\dt"
+```
+
+**Check Prisma migrations status:**
+
+```bash
+docker compose exec app npx prisma migrate status
+```
+
+**View app logs:**
+
+```bash
+docker compose logs app
+```
+
+**View database logs:**
+
+```bash
+docker compose logs postgres
+```
+
+**Open Prisma Studio (database GUI):**
+
+```bash
+docker compose exec app npx prisma studio
+```
+
+Then open http://localhost:5555
+
+### Option 2: Local Development
+
 First, run the development server:
 
 ```bash
