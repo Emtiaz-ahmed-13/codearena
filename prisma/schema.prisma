@@ -4,13 +4,24 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  name      String?
+  clerkId   String   @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  role      UserRole @default(USER)
+  name      String?  // Computed field for display name
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
